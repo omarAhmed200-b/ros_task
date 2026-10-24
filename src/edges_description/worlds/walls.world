@@ -1,0 +1,342 @@
+
+<?xml version="1.0"?>
+<sdf version="1.6">
+    <world name="walls_world">
+        <physics name="experiment_physics" type="ignored">
+            <max_step_size>0.002</max_step_size>
+            <real_time_factor>2.0</real_time_factor>
+        </physics>
+        <scene>
+            <ambient>0.8 0.8 0.8 1</ambient>
+            <background>1 1 1 1</background>
+        </scene>
+
+        <light name="sun" type="directional">
+            <pose>0 0 10 0 0 0</pose>
+            <diffuse>0.8 0.8 0.8 1</diffuse>
+            <specular>0.2 0.2 0.2 1</specular>
+            <direction>-0.5 0.1 -0.9</direction>
+        </light>
+
+        <model name="ground_plane">
+            <static>true</static>
+            <link name="ground_link">
+                <pose>0 0 -0.05 0 0 0</pose>
+                <collision name="collision">
+                    <geometry>
+                        <box>
+                            <size>10 10 0.1</size>
+                        </box>
+                    </geometry>
+                    <surface>
+                        <friction>
+                            <ode>
+                                <mu>1.5</mu>
+                                <mu2>1.5</mu2>
+                            </ode>
+                        </friction>
+                    </surface>
+                </collision>
+                <visual name="visual">
+                    <geometry>
+                        <box>
+                            <size>10 10 0.1</size>
+                        </box>
+                    </geometry>
+                    <material>
+                        <ambient>0.2 0.2 0.2 1</ambient>
+                        <diffuse>0.2 0.2 0.2 1</diffuse>
+                    </material>
+                </visual>
+            </link>
+        </model>
+
+        <model name="front_wall">
+            <static>false</static>
+            <pose>3 0 0.5 0 0 0</pose>
+
+            <link name="base_link">
+                <pose>0 0 -0.35 0 0 0</pose>
+                <inertial>
+                    <mass>100</mass>
+                    <inertia>
+                        <ixx>1</ixx>
+                        <iyy>1</iyy>
+                        <izz>1</izz>
+                    </inertia>
+                </inertial>
+            </link>
+
+            <link name="wall_link">
+                <inertial>
+                    <pose>0 0 0.05 0 0 0</pose>
+                    <mass>1</mass>
+                    <inertia>
+                        <ixx>2.166667</ixx>
+                        <iyy>0.086667</iyy>
+                        <izz>2.086667</izz>
+                        <ixy>0</ixy>
+                        <ixz>0</ixz>
+                        <iyz>0</iyz>
+                    </inertia>
+                </inertial>
+                <collision name="collision">
+                    <pose>0 0 0.05 0 0 0</pose>
+                    <geometry>
+                        <box>
+                            <size>0.2 5.0 1</size>
+                        </box>
+                    </geometry>
+                </collision>
+                <visual name="visual">
+                    <pose>0 0 0.05 0 0 0</pose>
+                    <geometry>
+                        <box>
+                            <size>0.2 6.2 1</size>
+                        </box>
+                    </geometry>
+                    <material>
+                        <ambient>0.9 0.9 0.9 1</ambient>
+                        <diffuse>0.9 0.9 0.9 1</diffuse>
+                    </material>
+                </visual>
+            </link>
+
+            <joint name="base_fixed" type="fixed">
+                <parent>world</parent>
+                <child>base_link</child>
+            </joint>
+
+            <joint name="front_hinge" type="revolute">
+                <pose>0 0 -0.35 0 0 0</pose>
+                <parent>base_link</parent>
+                <child>wall_link</child>
+                <axis>
+                    <xyz>0 1 0</xyz>
+                    <limit>
+                        <lower>-1.5708</lower>
+                        <upper>1.5708</upper>
+                    </limit>
+                </axis>
+            </joint>
+            <plugin filename="ignition-gazebo-joint-state-publisher-system"
+                name="ignition::gazebo::systems::JointStatePublisher" />
+        </model>
+
+        <model name="back_wall">
+            <static>false</static>
+            <pose>-3 0 0.5 0 0 0</pose>
+
+            <link name="base_link">
+                <pose>0 0 -0.35 0 0 0</pose>
+                <inertial>
+                    <mass>100</mass>
+                    <inertia>
+                        <ixx>1</ixx>
+                        <iyy>1</iyy>
+                        <izz>1</izz>
+                    </inertia>
+                </inertial>
+            </link>
+
+            <link name="wall_link">
+                <inertial>
+                    <pose>0 0 0.05 0 0 0</pose>
+                    <mass>1</mass>
+                    <inertia>
+                        <ixx>2.166667</ixx>
+                        <iyy>0.086667</iyy>
+                        <izz>2.086667</izz>
+                        <ixy>0</ixy>
+                        <ixz>0</ixz>
+                        <iyz>0</iyz>
+                    </inertia>
+                </inertial>
+                <collision name="collision">
+                    <pose>0 0 0.05 0 0 0</pose>
+                    <geometry>
+                        <box>
+                            <size>0.2 5.0 1</size>
+                        </box>
+                    </geometry>
+                </collision>
+                <visual name="visual">
+                    <pose>0 0 0.05 0 0 0</pose>
+                    <geometry>
+                        <box>
+                            <size>0.2 6.2 1</size>
+                        </box>
+                    </geometry>
+                    <material>
+                        <ambient>0.9 0.9 0.9 1</ambient>
+                        <diffuse>0.9 0.9 0.9 1</diffuse>
+                    </material>
+                </visual>
+            </link>
+
+            <joint name="base_fixed" type="fixed">
+                <parent>world</parent>
+                <child>base_link</child>
+            </joint>
+
+            <joint name="back_hinge" type="revolute">
+                <pose>0 0 -0.35 0 0 0</pose>
+                <parent>base_link</parent>
+                <child>wall_link</child>
+                <axis>
+                    <xyz>0 1 0</xyz>
+                    <limit>
+                        <lower>-1.5708</lower>
+                        <upper>1.5708</upper>
+                    </limit>
+                </axis>
+            </joint>
+            <plugin filename="ignition-gazebo-joint-state-publisher-system"
+                name="ignition::gazebo::systems::JointStatePublisher" />
+        </model>
+
+        <model name="left_wall">
+            <static>false</static>
+            <pose>0 3 0.5 0 0 0</pose>
+
+            <link name="base_link">
+                <pose>0 0 -0.35 0 0 0</pose>
+                <inertial>
+                    <mass>100</mass>
+                    <inertia>
+                        <ixx>1</ixx>
+                        <iyy>1</iyy>
+                        <izz>1</izz>
+                    </inertia>
+                </inertial>
+            </link>
+
+            <link name="wall_link">
+                <inertial>
+                    <pose>0 0 0.05 0 0 0</pose>
+                    <mass>1</mass>
+                    <inertia>
+                        <ixx>0.086667</ixx>
+                        <iyy>2.166667</iyy>
+                        <izz>2.086667</izz>
+                        <ixy>0</ixy>
+                        <ixz>0</ixz>
+                        <iyz>0</iyz>
+                    </inertia>
+                </inertial>
+                <collision name="collision">
+                    <pose>0 0 0.05 0 0 0</pose>
+                    <geometry>
+                        <box>
+                            <size>5.0 0.2 1</size>
+                        </box>
+                    </geometry>
+                </collision>
+                <visual name="visual">
+                    <pose>0 0 0.05 0 0 0</pose>
+                    <geometry>
+                        <box>
+                            <size>6.2 0.2 1</size>
+                        </box>
+                    </geometry>
+                    <material>
+                        <ambient>0.9 0.9 0.9 1</ambient>
+                        <diffuse>0.9 0.9 0.9 1</diffuse>
+                    </material>
+                </visual>
+            </link>
+
+            <joint name="base_fixed" type="fixed">
+                <parent>world</parent>
+                <child>base_link</child>
+            </joint>
+
+            <joint name="left_hinge" type="revolute">
+                <pose>0 0 -0.35 0 0 0</pose>
+                <parent>base_link</parent>
+                <child>wall_link</child>
+                <axis>
+                    <xyz>1 0 0</xyz>
+                    <limit>
+                        <lower>-1.5708</lower>
+                        <upper>1.5708</upper>
+                    </limit>
+                </axis>
+            </joint>
+            <plugin filename="ignition-gazebo-joint-state-publisher-system"
+                name="ignition::gazebo::systems::JointStatePublisher" />
+        </model>
+
+        <model name="right_wall">
+            <static>false</static>
+            <pose>0 -3 0.5 0 0 0</pose>
+
+            <link name="base_link">
+                <pose>0 0 -0.35 0 0 0</pose>
+                <inertial>
+                    <mass>100</mass>
+                    <inertia>
+                        <ixx>1</ixx>
+                        <iyy>1</iyy>
+                        <izz>1</izz>
+                    </inertia>
+                </inertial>
+            </link>
+
+            <link name="wall_link">
+                <inertial>
+                    <pose>0 0 0.05 0 0 0</pose>
+                    <mass>1</mass>
+                    <inertia>
+                        <ixx>0.086667</ixx>
+                        <iyy>2.166667</iyy>
+                        <izz>2.086667</izz>
+                        <ixy>0</ixy>
+                        <ixz>0</ixz>
+                        <iyz>0</iyz>
+                    </inertia>
+                </inertial>
+                <collision name="collision">
+                    <pose>0 0 0.05 0 0 0</pose>
+                    <geometry>
+                        <box>
+                            <size>5.0 0.2 1</size>
+                        </box>
+                    </geometry>
+                </collision>
+                <visual name="visual">
+                    <pose>0 0 0.05 0 0 0</pose>
+                    <geometry>
+                        <box>
+                            <size>6.2 0.2 1</size>
+                        </box>
+                    </geometry>
+                    <material>
+                        <ambient>0.9 0.9 0.9 1</ambient>
+                        <diffuse>0.9 0.9 0.9 1</diffuse>
+                    </material>
+                </visual>
+            </link>
+
+            <joint name="base_fixed" type="fixed">
+                <parent>world</parent>
+                <child>base_link</child>
+            </joint>
+
+            <joint name="right_hinge" type="revolute">
+                <pose>0 0 -0.35 0 0 0</pose>
+                <parent>base_link</parent>
+                <child>wall_link</child>
+                <axis>
+                    <xyz>1 0 0</xyz>
+                    <limit>
+                        <lower>-1.5708</lower>
+                        <upper>1.5708</upper>
+                    </limit>
+                </axis>
+            </joint>
+            <plugin filename="ignition-gazebo-joint-state-publisher-system"
+                name="ignition::gazebo::systems::JointStatePublisher" />
+        </model>
+    </world>
+</sdf>

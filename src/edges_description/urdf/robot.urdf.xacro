@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<robot name="edges_robot" xmlns:xacro="http://www.ros.org/wiki/xacro">
+    <xacro:include filename="materials.xacro" />
+    <xacro:include filename="base.xacro" />
+    <xacro:include filename="wheels.xacro" />
+
+    <xacro:wheel prefix="left" y_position="0.3" />
+    <xacro:wheel prefix="right" y_position="-0.3" />
+
+    <gazebo>
+        <plugin
+            filename="libignition-gazebo-diff-drive-system.so"
+            name="ignition::gazebo::systems::DiffDrive">
+            <left_joint>left_wheel_joint</left_joint>
+            <right_joint>right_wheel_joint</right_joint>
+            <wheel_separation>0.6</wheel_separation>
+            <wheel_radius>0.15</wheel_radius>
+            <topic>cmd_vel</topic>
+            <odom_topic>wheel_odom</odom_topic>
+            <frame_id>odom</frame_id>
+            <child_frame_id>base_link</child_frame_id>
+            <odom_publish_frequency>30</odom_publish_frequency>
+            <max_linear_velocity>5.0</max_linear_velocity>
+            <max_angular_velocity>2.0</max_angular_velocity>
+        </plugin>
+    </gazebo>
+
+    <gazebo>
+        <plugin
+            filename="libignition-gazebo-odometry-publisher-system.so"
+            name="ignition::gazebo::systems::OdometryPublisher">
+            <dimensions>3</dimensions>
+            <odom_publish_frequency>100</odom_publish_frequency>
+        </plugin>
+    </gazebo>
+</robot>
